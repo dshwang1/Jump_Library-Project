@@ -1,2 +1,2 @@
 /target/
-pom.xml
+/src/main/java/com/cognixia/jump/LibraryProject/connection/ConnectionManager.java
