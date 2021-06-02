@@ -4,4 +4,14 @@
 
 <web-app>
   <display-name>Archetype Created Web Application</display-name>
+  <servlet>
+  	<servlet-name>LibraryServlet</servlet-name>
+  	<display-name>LibraryServlet</display-name>
+  	<description></description>
+  	<servlet-class>com.cognixia.jump.LibraryProject.web.LibraryServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>LibraryServlet</servlet-name>
+  	<url-pattern>/LibraryServlet</url-pattern>
+  </servlet-mapping>
 </web-app>
