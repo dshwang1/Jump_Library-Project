@@ -10,6 +10,8 @@ import java.util.List;
 
 import com.cognixia.jump.LibraryProject.connection.ConnectionManager;
 import com.cognixia.jump.LibraryProject.model.Book;
+import com.cognixia.jump.LibraryProject.model.Checkout;
+import com.cognixia.jump.LibraryProject.model.Patron;
 
 public class BookDAO {
 	public static final Connection conn = ConnectionManager.getConnection();
@@ -18,8 +20,10 @@ public class BookDAO {
 	private static final String UPDATE_BOTH = "update book set title = ?, descr = ? where isbn = ?";
 	private static final String ADD_BOOK = "insert into book(isbn, title, descr, rented, added_to_library) values(?, ?, ?, ?, ?)";
 	private static final String VIEW_CHECKOUT_BOOKS = "select distinct book.isgn, title, descr, rented, added_to_library from book join book_checkout on book.isbn = book_checkout.isbn";
-	private static final String RETURN_BOOK = "";
-	private static final String CHECKOUT_BOOK = "";
+	private static final String RETURN_BOOK = "update book_checkout set returned = ? where checkout_id = ?";
+	private static final String CHECKOUT_BOOK = "insert into book_checkout(patron_id, isbn, checkedout, due-date, returned) vlaues(?, ?, ?, null, null)";
+	private static final String CHECK_RETURN = "select rented from book where isbn = ?";
+	private static final String UPDATE_RETURN = "update book set rented = ? where isbn = ?";
 	
 	public List<Book> getBooks() {
 		List<Book> allBooks = new ArrayList<>();
@@ -95,7 +99,83 @@ public class BookDAO {
 		
 		return false;
 	}
+	//add new checkout row into book_checkout table
+	public boolean addCheckout(Book book, Patron patron) {
+		//is checkRent returns true, this book is in rent, can't checkout.
+		if(checkRent(book))
+			return false;
+		
+		try(PreparedStatement ps = conn.prepareStatement(CHECKOUT_BOOK)) {
+			ps.setInt(1, patron.getId());
+			ps.setString(2, book.getIsbn());
+			//need to get today's date
+			ps.setDate(3, null);
+			updateRent(book);
+			if(ps.executeUpdate() > 0)
+				return true;
+		} catch(SQLException e) {
+			e.printStackTrace();
+		}	
+		return false;
+	}
+
+	public boolean returnBook(Checkout checkout, Book book) {
+		//if book is not in rent, then return false;
+		if(!checkRent(book))
+			return false;
+		
+		try(PreparedStatement ps = conn.prepareStatement(RETURN_BOOK)) {
+			ps.setDate(1, null);
+			ps.setInt(2, checkout.getId());
+			updateRent(book);
+			
+			if(ps.executeUpdate() > 0)
+				return true;
+			
+		} catch(SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return false;
+	}
 	
+	
+	//returns the current book rented status.
+	public boolean checkRent(Book book) {
+		boolean isrent = false;
+		try(PreparedStatement ps = conn.prepareStatement(CHECK_RETURN);
+				ResultSet rs = ps.executeQuery()) {
+			ps.setString(1, book.getIsbn());
+			if(rs.next())
+				isrent = rs.getBoolean(1);
+			
+			return isrent;
+			
+			
+		} catch(SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return isrent;
+	}
+	
+	//updates the rented to opposite status no matter what status is in.
+	public boolean updateRent(Book book) {
+		boolean rent = checkRent(book);
+		if(rent)
+			rent = false;
+		else
+			rent = true;
+		try(PreparedStatement ps = conn.prepareStatement(UPDATE_RETURN)) {
+			ps.setBoolean(1, rent);
+			ps.setString(2, book.getIsbn());
+			if(ps.executeUpdate() > 0)
+				return true;
+		} catch(SQLException e) {
+			e.printStackTrace();
+		}
+		return false;
+	}
 	
 	
 	
