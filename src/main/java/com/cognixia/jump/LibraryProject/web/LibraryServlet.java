@@ -31,7 +31,6 @@ public class LibraryServlet extends HttpServlet {
 	private static final String libPage = "librarian-page.jsp";
 	private static final String patPage = "patron-page.jsp";
 	
-	
 	public void init(ServletConfig config) throws ServletException {
 		// TODO Auto-generated method stub
 		bookDao = new BookDAO();
@@ -39,16 +38,6 @@ public class LibraryServlet extends HttpServlet {
 		librarianDao = new LibrarianDAO();
 	}
 
-	/**
-	 * @see Servlet#destroy()
-	 */
-	public void destroy() {
-		try {
-			ConnectionManager.getConnection().close();
-		} catch(SQLException e) {
-			e.printStackTrace();
-		}
-	}
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
@@ -129,48 +118,51 @@ public class LibraryServlet extends HttpServlet {
 	}
 	
 	//list books for patrons
-	private void listBooks(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+
+		private void listBooks(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+			
+		}
 		
-	}
-	
-	//list checkedout books for patrons
-	private void listCheckedoutBooks(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		//list checkedout books for patrons
+		private void listCheckedoutBooks(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+			
+		}
 		
-	}
-	
-	//checkout book for patron
-	private void checkout(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		//checkout book for patron
+		private void checkout(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+			
+		}
 		
-	}
-	
-	//return book for patron
-	private void returnbook(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		//return book for patron
+		private void returnbook(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+			
+		}
 		
-	}
-	
-	//update name, username, password
-	private void updateCredential(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		//update name, username, password
+		private void updateCredential(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+			
+		}
 		
-	}
-	
-	//addBook for librarian
-	private void addBook(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		//addBook for librarian
+		private void addBook(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+			
+		}
 		
-	}
-	
-	//update book
-	private void updateBooks(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		//update book
+		private void updateBooks(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+			
+		}
 		
-	}
-	
-	//approve patron for librarian
-	private void approve(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		//approve patron for librarian
+		private void approve(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+			
+		}
+
 		
-	}
-	
-	//update username, password for librarian
-	private void updateCredentialLibrarian(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
-	}
+		//update username, password for librarian
+		private void updateCredentialLibrarian(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+			
+		}
 
 }

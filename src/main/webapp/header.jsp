@@ -24,10 +24,12 @@
 		    <ul class="navbar-nav">
 		    
 		      	<li class="nav-item">
-		        	<a class="nav-link" href="<%= request.getContextPath() %>/list">Sign-Up</a>
+
+		        	<a class="nav-link" href="<%= request.getContextPath() %>/signup">Sign-Up</a>
 		      	</li>
 		      	<li class="nav-item">
-		        	<a class="nav-link" href="<%= request.getContextPath() %>/new">Sign-In </a>
+		        	<a class="nav-link" href="<%= request.getContextPath() %>/login">Sign-In </a>
+
 		      	</li>
 		      	
 		    </ul>
