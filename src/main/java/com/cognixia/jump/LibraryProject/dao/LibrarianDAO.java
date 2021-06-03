@@ -14,7 +14,9 @@ public class LibrarianDAO {
 	public static final String APPROVE_PATRON = "UPDATE patron SET account_frozen = 'true' WHERE patron_id = ?";
 	public static final String UPDATE_USERNAME = "UPDATE librarian SET username = ? WHERE librarian_id = ?";
 	public static final String UPDATE_PASSWORD = "UPDATE librarian SET password = ? WHERE librarian_id = ?";
-	
+	public static final String LOGIN = "SELECT * FROM librarian"
+										+ "WHERE username = ? AND password = ?";
+	public static final String USERNAME_CHECK = "SELECT * FROM librarian WHERE username = ?";
 	
 	public boolean approvePatron(int id) {
 		boolean approved = false;
@@ -36,15 +38,17 @@ public class LibrarianDAO {
 		
 		boolean updated = false;
 		
-		try(PreparedStatement pstmt = conn.prepareStatement(UPDATE_USERNAME)) {
-		
-			pstmt.setString(1, username);
-			pstmt.setInt(2, id);
-			
-			updated = pstmt.execute();
-			
-		} catch (SQLException e) {
-			e.printStackTrace();
+		if(usernameTaken(username)) {
+			try(PreparedStatement pstmt = conn.prepareStatement(UPDATE_USERNAME)) {
+				
+				pstmt.setString(1, username);
+				pstmt.setInt(2, id);
+				
+				updated = pstmt.execute();
+				
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
 		}
 		
 		return updated;
@@ -86,4 +90,37 @@ public class LibrarianDAO {
 		return success;
 	}
 	
+	public boolean login(String username, String password) {
+			
+			boolean success = false;
+			
+			try(PreparedStatement pstmt = conn.prepareStatement(LOGIN)) {
+				
+				pstmt.setString(1, username);
+				pstmt.setString(2, password);
+				
+				success = pstmt.executeQuery().next();
+				
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			
+			return success;
+	}
+	
+	public boolean usernameTaken(String username) {
+		
+		boolean taken = false;
+		
+		try(PreparedStatement pstmt = conn.prepareStatement(USERNAME_CHECK)) {
+			
+			pstmt.setString(1, username);
+			taken = pstmt.executeQuery().next();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return taken;
+	}
 }

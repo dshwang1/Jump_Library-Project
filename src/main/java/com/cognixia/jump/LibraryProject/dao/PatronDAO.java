@@ -16,6 +16,9 @@ public class PatronDAO {
 	public static final String UPDATE_PASSWORD = "UPDATE patron SET password = ? WHERE patron_id = ?";
 	public static final String CREATE_ACCOUNT = "INSERT INTO patron (patron_id, first_name, last_name, username, password, frozen"
 												+ "VALUES(null, ?, ?, ?, ?, 'false')";
+	public static final String LOGIN = "SELECT * FROM patron "
+										+ "WHERE username = ? AND password = ?";
+	public static final String USERNAME_CHECK = "SELECT * FROM patron WHERE username = ?";
 	
 	public boolean updateName(int id, String firstName, String lastName) {
 		
@@ -40,15 +43,18 @@ public class PatronDAO {
 		
 		boolean updated = false;
 		
-		try(PreparedStatement pstmt = conn.prepareStatement(UPDATE_USERNAME)) {
-			
-			pstmt.setString(1, username);
-			pstmt.setInt(2, id);
-			
-			updated = pstmt.execute();
-			
-		} catch (SQLException e) {
-			e.printStackTrace();
+		// if username not taken, update username
+		if(!usernameTaken(username)) {
+			try(PreparedStatement pstmt = conn.prepareStatement(UPDATE_USERNAME)) {
+				
+				pstmt.setString(1, username);
+				pstmt.setInt(2, id);
+				
+				updated = pstmt.execute();
+				
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
 		}
 		
 		return updated;
@@ -76,23 +82,57 @@ public class PatronDAO {
 		
 		boolean inserted = false;
 		
-		try(PreparedStatement pstmt = conn.prepareStatement(CREATE_ACCOUNT)) {
+		// if username is not taken, create the account
+		if(!usernameTaken(username)) {
+			try(PreparedStatement pstmt = conn.prepareStatement(CREATE_ACCOUNT)) {
+				
+				pstmt.setString(1, firstName);
+				pstmt.setString(2, lastName);
+				pstmt.setString(3, username);
+				pstmt.setString(4, password);
+				
+				inserted = pstmt.execute();
+				
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		return inserted;
+	}
+	
+	public boolean login(String username, String password) {
+		
+		boolean success = false;
+		
+		try(PreparedStatement pstmt = conn.prepareStatement(LOGIN)) {
 			
-			pstmt.setString(1, firstName);
-			pstmt.setString(2, lastName);
-			pstmt.setString(3, username);
-			pstmt.setString(4, password);
+			pstmt.setString(1, username);
+			pstmt.setString(2, password);
 			
-			inserted = pstmt.execute();
+			success = pstmt.executeQuery().next();
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		
-		
-		return inserted;
-		
+		return success;
 	}
 	
-	
+	// returns true if username is taken, false otherwise
+	public boolean usernameTaken(String username) {
+		
+		boolean taken = false;
+		
+		try(PreparedStatement pstmt = conn.prepareStatement(USERNAME_CHECK)) {
+			
+			pstmt.setString(1, username);
+			taken = pstmt.executeQuery().next();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return taken;
+	}
 }
