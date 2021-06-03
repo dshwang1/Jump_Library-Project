@@ -1,5 +1,5 @@
 <div class="container">
-​
+
   <h1>Create Account: </h1>
   
   <div class="card-body">
@@ -14,6 +14,7 @@
       <fieldset class="form-group">
             
         <label>Fist Name:</label>
+
         <input type="text" name="first_name" />
       
         <label>Last Name:</label>
@@ -24,12 +25,13 @@
         
         <label>Password:</label>
         <input type="password" name="password"/>
+
             
       </fieldset>
           
-  ​
+  
       <button type="submit" class="btn btn-success">Sign Up</button>
-  ​
+  
     </form>
     </div>
 </div>

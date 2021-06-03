@@ -25,8 +25,10 @@
 			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
 		</attributes>
 	</classpathentry>
+
 	<classpathentry kind="lib" path="/home/choward/JDBC/Servers/apache-tomcat-9.0.46/lib/servlet-api.jar"/>
 	<classpathentry kind="lib" path="/home/choward/JDBC/mysql-connector-java-8.0.25.jar"/>
 	<classpathentry kind="lib" path="/home/choward/JDBC/jstl-1.2.jar"/>
+
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>
