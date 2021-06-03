@@ -129,47 +129,47 @@ public class LibraryServlet extends HttpServlet {
 	}
 	
 	//list books for patrons
-	private void listBooks(HttpServletRequest request, HttpServletResponse response) throws ServletExceptoin, IOException {
+	private void listBooks(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 	}
 	
 	//list checkedout books for patrons
-	private void listCheckedoutBooks(HttpServletRequest request, HttpServletResponse response) throws ServletExceptoin, IOException {
+	private void listCheckedoutBooks(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 	}
 	
 	//checkout book for patron
-	private void checkout(HttpServletRequest request, HttpServletResponse response) throws ServletExceptoin, IOException {
+	private void checkout(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 	}
 	
 	//return book for patron
-	private void returnbook(HttpServletRequest request, HttpServletResponse response) throws ServletExceptoin, IOException {
+	private void returnbook(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 	}
 	
 	//update name, username, password
-	private void updateCredential(HttpServletRequest request, HttpServletResponse response) throws ServletExceptoin, IOException {
+	private void updateCredential(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 	}
 	
 	//addBook for librarian
-	private void addBook(HttpServletRequest request, HttpServletResponse response) throws ServletExceptoin, IOException {
+	private void addBook(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 	}
 	
 	//update book
-	private void updateBooks(HttpServletRequest request, HttpServletResponse response) throws ServletExceptoin, IOException {
+	private void updateBooks(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 	}
 	
 	//approve patron for librarian
-	private void approve(HttpServletRequest request, HttpServletResponse response) throws ServletExceptoin, IOException {
+	private void approve(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 	}
 	
 	//update username, password for librarian
-	private void updateCredentialLibrarian(HttpServletRequest request, HttpServletResponse response) throws ServletExceptoin, IOException {
+	private void updateCredentialLibrarian(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 	}
 

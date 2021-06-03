@@ -25,17 +25,17 @@
 			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="C:/java_server/jstl-1.2.jar">
+	<classpathentry kind="lib" path="/Users/admin/Desktop/Servers/jstl-1.2.jar">
 		<attributes>
 			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="C:/java_server/Servers/apache-tomcat-9.0.46/lib/servlet-api.jar">
+	<classpathentry kind="lib" path="/Users/admin/eclipse-workspace/Servers/apache-tomcat-9.0.46/lib/servlet-api.jar">
 		<attributes>
 			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="C:/Program Files/MySQL/MySQLJava/mysql-connector-java-8.0.25.jar">
+	<classpathentry kind="lib" path="/Users/admin/Desktop/Servers/mysql-connector-java-8.0.25.jar">
 		<attributes>
 			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
 		</attributes>
