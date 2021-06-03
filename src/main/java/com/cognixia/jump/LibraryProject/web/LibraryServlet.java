@@ -61,5 +61,69 @@ public class LibraryServlet extends HttpServlet {
 		// TODO Auto-generated method stub
 		doGet(request, response);
 	}
+	
+	//login
+	private void login(HttpServletRequest request, HttpServletResponse response) throws ServletExceptoin, IOException {
+		
+	}
+	//librarian login
+	private void librarianLogin(HttpServletRequest request, HttpServletResponse response) throws ServletExceptoin, IOException {
+		
+	}
+	
+	
+	//list books for patrons
+	private void listBooks(HttpServletRequest request, HttpServletResponse response) throws ServletExceptoin, IOException {
+		
+	}
+	
+	//list checkedout books for patrons
+	private void listCheckedoutBooks(HttpServletRequest request, HttpServletResponse response) throws ServletExceptoin, IOException {
+		
+	}
+	//sign up for patron
+	private void signup(HttpServletRequest request, HttpServletResponse response) throws ServletExceptoin, IOException {
+		
+	}
+	
+	//checkout book for patron
+	private void checkout(HttpServletRequest request, HttpServletResponse response) throws ServletExceptoin, IOException {
+		
+	}
+	
+	//return book for patron
+	private void returnbook(HttpServletRequest request, HttpServletResponse response) throws ServletExceptoin, IOException {
+		
+	}
+	
+	//update name, username, password
+	private void updateCredential(HttpServletRequest request, HttpServletResponse response) throws ServletExceptoin, IOException {
+		
+	}
+	
+	//addBook for librarian
+	private void addBook(HttpServletRequest request, HttpServletResponse response) throws ServletExceptoin, IOException {
+		
+	}
+	
+	//update book
+	private void updateBooks(HttpServletRequest request, HttpServletResponse response) throws ServletExceptoin, IOException {
+		
+	}
+	
+	//approve patron for librarian
+	private void approve(HttpServletRequest request, HttpServletResponse response) throws ServletExceptoin, IOException {
+		
+	}
+	
+	//update username, password for librarian
+	private void updateCredentialLibrarian(HttpServletRequest request, HttpServletResponse response) throws ServletExceptoin, IOException {
+		
+	}
+	
+	
+	
+	
+	
 
 }
