@@ -68,6 +68,15 @@ public class LibraryServlet extends HttpServlet {
 		case "/librarian":
 			toLibPage(request, response);
 			break;
+		case "/update-librarian":
+			goToLibrarianUpdateForm(request, response);
+			break;
+			
+		case "/librarian-updated":
+			updateCredentialLibrarian(request, response);
+			break;
+			
+			
 			
 		case "/list":
 			listBooks(request, response);
@@ -305,6 +314,7 @@ public class LibraryServlet extends HttpServlet {
 		}
 
 		
+		
 		//update username, password for librarian
 		private void updateCredentialLibrarian(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 			
@@ -319,6 +329,8 @@ public class LibraryServlet extends HttpServlet {
 			} else {
 				System.out.println("failed to update credentials");
 			}
+			
+			response.sendRedirect("librarian");
 			
 		}
 
