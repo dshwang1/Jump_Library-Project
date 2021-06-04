@@ -31,8 +31,15 @@
 	
 	</table><br><br>
 	
-	<button type="submit" class="btn btn-success">All Books</button>
-	<button type="submit" class="btn btn-success">Checked Out Books</button>
+	<form action="list" method="post">
+		<button type="submit"  class="btn btn-success">All Books</button>
+	</form>
+	
+	<form action="checklist" method="post">
+		<button type="submit" class="btn btn-success">Checked Out Books</button>
+	</form>
+	
+	
 	
 </div>
 

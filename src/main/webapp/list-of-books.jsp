@@ -19,7 +19,7 @@
 			
 			<tbody>
 				
-				<c:forEach var="book" items="${bookList}">
+				<c:forEach var="book" items="${allBooks}">
 				
 					<td>
 						<c:out value="${ book.isbn }" />
