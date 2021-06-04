@@ -24,6 +24,8 @@ public class BookDAO {
 	private static final String CHECKOUT_BOOK = "insert into book_checkout(patron_id, isbn, checkedout, due-date, returned) vlaues(?, ?, ?, null, null)";
 	private static final String CHECK_RETURN = "select rented from book where isbn = ?";
 	private static final String UPDATE_RETURN = "update book set rented = ? where isbn = ?";
+	private static final String SELECT_BOOK_BY_ISBN = "select * from book where isbn = ?";
+	
 	
 	public List<Book> getBooks() {
 		List<Book> allBooks = new ArrayList<>();
@@ -74,7 +76,7 @@ public class BookDAO {
 			ps.setString(2, book.getTitle());
 			ps.setString(3, book.getDescr());
 			ps.setBoolean(4, false);
-			ps.setDate(5, book.getAdded_to_library());
+			ps.setDate(5, null);
 			
 			if(ps.executeUpdate() > 0)
 				return true;
@@ -178,6 +180,30 @@ public class BookDAO {
 			e.printStackTrace();
 		}
 		return false;
+	}
+	
+	//returns a Book by bookISBN
+	public Book getBookByIsbn(String isbn) {
+		Book book = null;
+		
+		try(PreparedStatement ps = conn.prepareStatement(SELECT_BOOK_BY_ISBN)) {
+			ps.setString(1, isbn);
+			
+			ResultSet rs = ps.executeQuery();
+			if(rs.next()) {
+				String this_isbn = rs.getString("isbn");
+				String title = rs.getString("title");
+				String descr = rs.getString("descr");
+				book = new Book(this_isbn, title, descr);
+			}
+			rs.close();
+			
+		} catch(SQLException e) {
+			e.printStackTrace();
+		}
+		
+		
+		return book;
 	}
 	
 	

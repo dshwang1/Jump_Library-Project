@@ -50,10 +50,21 @@ public class LibraryServlet extends HttpServlet {
 			login(request,response);
 			break;
 		case "/signup":
+			goToSignupPage(request, response);
+			break;
+		case "/signedup":
 			signup(request,response);
 			break;
-		case "/list-books":
+			
+		case "/user":
+			break;
+		case "/librarian":
+			break;
+			
+			
+		case "/user/list-books":
 			listBooks(request, response);
+			break;
 		}
 		
 	}
@@ -183,8 +194,20 @@ public class LibraryServlet extends HttpServlet {
 		
 		//addBook for librarian
 		private void addBook(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+			String isbn = request.getParameter("isbn");
+			String title = request.getParameter("title");
+			String descr = request.getParameter("descr");
+			
+			Book book = new Book(isbn, title, descr);
+			bookDao.addBook(book);
+			response.sendRedirect("librarian");
 			
 		}
+		
+		private void goToUpdateBook(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+			
+		}
+		
 		
 		//update book
 		private void updateBooks(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
