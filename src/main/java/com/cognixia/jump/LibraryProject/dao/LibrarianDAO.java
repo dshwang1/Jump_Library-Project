@@ -20,7 +20,7 @@ public class LibrarianDAO {
 	public static final String UPDATE_USERNAME = "UPDATE librarian SET username = ? WHERE librarian_id = ?";
 	public static final String UPDATE_PASSWORD = "UPDATE librarian SET password = ? WHERE librarian_id = ?";
 	public static final String LOGIN = "SELECT * FROM librarian"
-										+ "WHERE username = ? AND password = ?";
+										+ " WHERE username = ? AND password = ?";
 	public static final String USERNAME_CHECK = "SELECT * FROM librarian WHERE username = ?";
 	
 	public List<Patron> approvePatron(int id) {

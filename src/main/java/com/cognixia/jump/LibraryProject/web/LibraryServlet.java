@@ -33,7 +33,7 @@ public class LibraryServlet extends HttpServlet {
 //	private LibrarianDAO libDao = new LibrarianDAO();
 	
 	private static final String libPage = "librarian-page.jsp";
-	private static final String patPage = "patron-page.jsp";
+	private static final String patPage = "user-page.jsp";
 	
 	public void init(ServletConfig config) throws ServletException {
 		// TODO Auto-generated method stub
@@ -56,22 +56,41 @@ public class LibraryServlet extends HttpServlet {
 			login(request,response);
 			break;
 		case "/signup":
-			System.out.println("switching pages");
 			goToSignupPage(request, response);
 			break;
+		case "/patron":
+			toPatronPage(request, response);
+			break;
+
+		case "/librarian":
+			toLibPage(request, response);
+			break;
+			
 		case "/signedup":
 			signup(request,response);
 			break;
 			
-		case "/user":
-			break;
-		case "/librarian":
+		case "/list":
+			listBooks(request, response);
 			break;
 			
+		case "/checklist":
+			listCheckedoutBooks(request, response);
+			break;
 			
-//		case "/":
-//			listBooks(request, response);
-//			break;
+		case "/update-form":
+			goToUpdateBook(request, response);
+			break;
+			
+		case "/update":
+			updateBooks(request, response);
+			break;
+			
+		case "/add-book":
+			addBook(request, response);
+			break;
+			
+
 			
 		default:
 			response.sendRedirect("/");
@@ -90,6 +109,17 @@ public class LibraryServlet extends HttpServlet {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+	}
+	
+
+	private void toPatronPage(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		RequestDispatcher dispatcher = request.getRequestDispatcher(patPage);
+		dispatcher.forward(request, response);
+	}
+	
+	private void toLibPage(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		RequestDispatcher dispatcher = request.getRequestDispatcher(libPage);
+		dispatcher.forward(request, response);
 	}
 	
 	private void login(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -112,8 +142,15 @@ public class LibraryServlet extends HttpServlet {
 		
 		// redirect
 		if(success) {
-			RequestDispatcher dispatcher = request.getRequestDispatcher(page);
-			dispatcher.forward(request, response);
+			if(type.equals("patron")) {
+				response.sendRedirect("patron");
+//				RequestDispatcher dispatcher = request.getRequestDispatcher(patPage);
+//				dispatcher.forward(request, response);
+			} else {
+				response.sendRedirect("librarian");
+			}
+//			RequestDispatcher dispatcher = request.getRequestDispatcher(page);
+//			dispatcher.forward(request, response);
 		} else {
 			//TODO send failed message
 			System.out.println("Login failed. ");
@@ -141,8 +178,8 @@ public class LibraryServlet extends HttpServlet {
 		success = patronDao.createAccount(firstName, lastName, username, password);
 		
 		if(success) {
-			RequestDispatcher dispatcher = request.getRequestDispatcher(patPage);
-			dispatcher.forward(request, response);
+			response.sendRedirect("patron");
+//			toPatronPage(request, response);
 		} else {
 			// TODO send failed message
 			System.out.println("Failed signup");
@@ -158,7 +195,7 @@ public class LibraryServlet extends HttpServlet {
 			
 			request.setAttribute("allBooks", allBooks);
 			
-			RequestDispatcher dispatcher = request.getRequestDispatcher("lisg-of-books.jsp");
+			RequestDispatcher dispatcher = request.getRequestDispatcher("list-of-books.jsp");
 			
 			dispatcher.forward(request, response);
 		}
@@ -231,7 +268,7 @@ public class LibraryServlet extends HttpServlet {
 		private void addBook(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 			String isbn = request.getParameter("isbn");
 			String title = request.getParameter("title");
-			String descr = request.getParameter("descr");
+			String descr = request.getParameter("description");
 			
 			Book book = new Book(isbn, title, descr);
 			bookDao.addBook(book);
@@ -240,13 +277,20 @@ public class LibraryServlet extends HttpServlet {
 		}
 		
 		private void goToUpdateBook(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-			
+			RequestDispatcher dispatcher = request.getRequestDispatcher("update-book.jsp");
+			dispatcher.forward(request, response);
 		}
 		
 		
 		//update book
 		private void updateBooks(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+			String isbn = request.getParameter("isbn");
+			String title = request.getParameter("title");
+			String descr = request.getParameter("description");
+			Book book = new Book(isbn, title, descr);
+			bookDao.updateBook(book);
 			
+			response.sendRedirect("librarian");
 		}
 		
 		//approve patron for librarian
