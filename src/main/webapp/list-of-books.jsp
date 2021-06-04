@@ -19,8 +19,8 @@
 			
 			<tbody>
 				
-				<c:forEach var="book" items="${bookList}">
-				
+				<c:forEach var="book" items="${allBooks}">
+				<tr>
 					<td>
 						<c:out value="${ book.isbn }" />
 					</td>
@@ -30,6 +30,9 @@
 					<td>
 						<fieldset><c:out value="${ book.rented }" /></fieldset>
 					</td>
+				
+				</tr>
+
 				
 				</c:forEach>
 			

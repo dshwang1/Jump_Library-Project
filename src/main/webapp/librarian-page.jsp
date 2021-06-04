@@ -31,6 +31,10 @@
 		<form action="update-form" method="post">
 			<button type="submit" class="btn btn-success">UPDATE</button>
 		</form>
+		
+		<form action="update-librarian" method="post">
+			<button type="submit" class="btn btn-success">UPDATE ACCOUNT</button>
+		</form>
 	</div>
 </div>
 

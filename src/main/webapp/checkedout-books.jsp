@@ -17,16 +17,20 @@
 		</thead>
 		
 		<tbody>
-			<c:forEach var="book" items="${allBooks}">
+			<c:forEach var="book" items="${checkedoutBooks}">
+			
+			<tr>
 				<td>
-					<c:out value="${ book_checkout.isbn }" />
-				<%-- </td>
-				<td>
-					<c:out value="${ book_checkout.book.title }" />
-				</td> --%>
-				<td>
-					<c:out value="${ book_checkout.checkedout }" />
+					<c:out value="${ book.isbn }" />
 				</td>
+				<td>
+					<c:out value="${ book.title }" />
+				</td> 
+				<td>
+					<c:out value="${ book.descr }" />
+				</td>
+			</tr>
+				
 			</c:forEach>
 		</tbody>
 	
