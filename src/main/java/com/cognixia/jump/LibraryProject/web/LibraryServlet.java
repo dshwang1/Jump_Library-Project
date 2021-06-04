@@ -248,9 +248,9 @@ public class LibraryServlet extends HttpServlet {
 		}
 		
 		private void goToLibrarianUpdateForm(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-			String username = request.getParameter("username");
-			Librarian librarian = librarianDao.getLibrarianByUsername(username);
-			request.setAttribute("librarian", librarian);
+//			String username = request.getParameter("username");
+//			Librarian librarian = librarianDao.getLibrarianByUsername(username);
+//			request.setAttribute("librarian", librarian);
 			RequestDispatcher dispatcher = request.getRequestDispatcher("librarian-update.jsp");
 			dispatcher.forward(request, response);
 			
@@ -318,11 +318,17 @@ public class LibraryServlet extends HttpServlet {
 		//update username, password for librarian
 		private void updateCredentialLibrarian(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 			
-			int id = Integer.parseInt(request.getParameter("librarian_id"));
-			String username = request.getParameter("username");
-			String password = request.getParameter("password");
+			String type = request.getParameter("update-type");
+			String old = request.getParameter("old-value");
+			String newValue = request.getParameter("new-value");
 			
-			boolean success = librarianDao.updateUsernameAndPassword(id, username, password);
+			boolean success = false;
+			
+			if(type.equals("username")) {
+				success = librarianDao.updateUsername(old, newValue);
+			} else {
+				// TODO
+			}
 			
 			if (success) {
 				System.out.println("updated credentials");

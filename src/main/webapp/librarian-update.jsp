@@ -4,7 +4,7 @@
 
 	<div class="card-body">
 		
-		<form action="update" method="post">
+		<form action="librarian-updated" method="post">
 			<h3>Update profile: </h3>
 			<fieldset>
 			    <input type="radio" name="update-type" value="username" >
@@ -17,10 +17,10 @@
 	    
 			<fieldset class="form-group">
 		        <label>Old:</label>
-		        <input type="text" name="isbn"/><br>
+		        <input type="text" name="old-value"/><br>
 		        
 		        <label>New:</label>
-		        <input type="text" name="title"/>
+		        <input type="text" name="new-value"/>
 	      	</fieldset>
 	      	<br>
 	      	

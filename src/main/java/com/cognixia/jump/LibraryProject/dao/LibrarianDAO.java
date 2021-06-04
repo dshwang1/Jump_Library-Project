@@ -17,8 +17,8 @@ public class LibrarianDAO {
 	
 	// Query Strings
 	public static final String APPROVE_PATRON = "UPDATE patron SET account_frozen = 'true' WHERE account_frozen = 'false'";
-	public static final String UPDATE_USERNAME = "UPDATE librarian SET username = ? WHERE librarian_id = ?";
-	public static final String UPDATE_PASSWORD = "UPDATE librarian SET password = ? WHERE librarian_id = ?";
+	public static final String UPDATE_USERNAME = "UPDATE librarian SET username = ? WHERE username = ?";
+	public static final String UPDATE_PASSWORD = "UPDATE librarian SET password = ? WHERE username = ?";
 	public static final String LOGIN = "SELECT * FROM librarian"
 										+ " WHERE username = ? AND password = ?";
 	public static final String USERNAME_CHECK = "SELECT * FROM librarian WHERE username = ?";
@@ -47,17 +47,18 @@ public class LibrarianDAO {
 		
 	}
 	
-	public boolean updateUsername(int id, String username) {
+	public boolean updateUsername(String oldUsername, String newUsername) {
 		
 		boolean updated = false;
 		
-		if(usernameTaken(username)) {
+		if(!usernameTaken(newUsername)) {
 			try(PreparedStatement pstmt = conn.prepareStatement(UPDATE_USERNAME)) {
 				
-				pstmt.setString(1, username);
-				pstmt.setInt(2, id);
+				pstmt.setString(1, newUsername);
+				pstmt.setString(2, oldUsername);
 				
 				updated = pstmt.execute();
+				updated = true;
 				
 			} catch (SQLException e) {
 				e.printStackTrace();
@@ -85,23 +86,23 @@ public class LibrarianDAO {
 		return updated;
 	}
 	
-	public boolean updateUsernameAndPassword(int id, String username, String password) {
-		
-		// TODO execute commit
-		
-		boolean success = false;
-		
-		if(updateUsername(id, username)) {
-			
-			if(updatePassword(id, password)) {
-				success = true;
-			} else {
-				// TODO revert change
-			}
-		}
-		
-		return success;
-	}
+//	public boolean updateUsernameAndPassword(int , String username, String password) {
+//		
+//		// TODO execute commit
+//		
+//		boolean success = false;
+//		
+//		if(updateUsername(id, username)) {
+//			
+//			if(updatePassword(id, password)) {
+//				success = true;
+//			} else {
+//				// TODO revert change
+//			}
+//		}
+//		
+//		return success;
+//	}
 	
 	public boolean login(String username, String password) {
 			
