@@ -21,7 +21,7 @@ import com.cognixia.jump.LibraryProject.model.Librarian;
 import com.cognixia.jump.LibraryProject.model.Patron;
 
 
-@WebServlet("/LibraryProject")
+@WebServlet("/")
 public class LibraryServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
@@ -46,16 +46,18 @@ public class LibraryServlet extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
+//		String action = "";
 		String action = request.getServletPath();
 		System.out.println(action);
+		System.out.println("switching pages");
 		// TODO handle other actions from library and patron pages
 		switch(action) {
 		case "/login":
 			login(request,response);
 			break;
 		case "/signup":
-			RequestDispatcher dispatcher = request.getRequestDispatcher("signup-form.jsp");
-			dispatcher.forward(request, response);
+			System.out.println("switching pages");
+			goToSignupPage(request, response);
 			break;
 		case "/signedup":
 			signup(request,response);
@@ -67,12 +69,12 @@ public class LibraryServlet extends HttpServlet {
 			break;
 			
 			
-		case "/list-books":
-			listBooks(request, response);
-			break;
+//		case "/":
+//			listBooks(request, response);
+//			break;
 			
 		default:
-			response.sendRedirect("/LibraryProject");
+			response.sendRedirect("/");
 			break;
 		}
 		
@@ -115,6 +117,7 @@ public class LibraryServlet extends HttpServlet {
 			dispatcher.forward(request, response);
 		} else {
 			//TODO send failed message
+			System.out.println("Login failed. ");
 		}
 		
 		
