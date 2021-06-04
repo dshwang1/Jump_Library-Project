@@ -4,6 +4,16 @@ public class Patron {
 	private int id;
 	private String first_name, last_name, username, password;
 	private boolean frozen;
+	
+	public Patron(int id, String first_name, String last_name, String username, String password, boolean frozen) {
+		super();
+		this.id = id;
+		this.first_name = first_name;
+		this.last_name = last_name;
+		this.username = username;
+		this.password = password;
+		this.frozen = frozen;
+	}
 	public int getId() {
 		return id;
 	}

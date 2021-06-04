@@ -7,6 +7,12 @@ public class Book {
 	private boolean rented;
 	private Date added_to_library;
 	
+	public Book(String isbn, String title, String descr) {
+		this.isbn = isbn;
+		this.title = title;
+		this.descr = descr;
+	}
+	
 	public Book(String isbn, String title, String descr, boolean rented, Date added_to_library) {
 		super();
 		this.isbn = isbn;

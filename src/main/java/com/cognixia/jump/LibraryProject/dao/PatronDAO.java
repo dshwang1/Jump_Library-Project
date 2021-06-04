@@ -2,13 +2,16 @@ package com.cognixia.jump.LibraryProject.dao;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import com.cognixia.jump.LibraryProject.connection.ConnectionManager;
+import com.cognixia.jump.LibraryProject.model.Patron;
 
 public class PatronDAO {
 
 	public static final Connection conn = ConnectionManager.getConnection();
+	
 	
 	// Query Strings
 	public static final String UPDATE_NAME = "UPDATE patron SET first_name = ?, last_name = ? WHERE patron_id = ?";
@@ -134,5 +137,30 @@ public class PatronDAO {
 		}
 		
 		return taken;
+	}
+	
+	public Patron getPatronByUsername(String username) {
+		Patron patron = null;
+		
+		try(PreparedStatement ps = conn.prepareStatement(USERNAME_CHECK)) {
+			ps.setString(1, username);
+			
+			ResultSet rs = ps.executeQuery();
+			if(rs.next()) {
+				String un = rs.getString("username");
+				String first_name = rs.getString("first_name");
+				String last_name = rs.getString("last_name");
+				int id = rs.getInt("patron_id");
+				String pw = rs.getString("password");
+				boolean frozen = rs.getBoolean("account_frozen");
+				
+				patron = new Patron(id, first_name, last_name, un, pw, frozen);
+			}
+			rs.close();
+			
+		} catch(SQLException e) {
+			e.printStackTrace();
+		}
+		return patron;
 	}
 }

@@ -2,9 +2,11 @@ package com.cognixia.jump.LibraryProject.dao;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import com.cognixia.jump.LibraryProject.connection.ConnectionManager;
+import com.cognixia.jump.LibraryProject.model.Librarian;
 
 public class LibrarianDAO {
 
@@ -122,5 +124,28 @@ public class LibrarianDAO {
 		}
 		
 		return taken;
+	}
+	
+	public Librarian getLibrarianByUsername(String username) {
+		Librarian librarian = null;
+		
+		try(PreparedStatement ps = conn.prepareStatement(USERNAME_CHECK)) {
+			ps.setString(1, username);
+			
+			ResultSet rs = ps.executeQuery();
+			if(rs.next()) {
+				String un = rs.getString("username");
+				int id = rs.getInt("librarian_id");
+				String pw = rs.getString("password");
+				librarian = new Librarian(id, un, pw);
+			}
+			rs.close();
+			
+		} catch(SQLException e) {
+			e.printStackTrace();
+		}
+		
+		
+		return librarian;
 	}
 }
