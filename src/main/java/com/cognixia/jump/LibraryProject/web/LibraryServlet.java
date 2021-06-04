@@ -7,6 +7,7 @@ import java.util.List;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -19,6 +20,8 @@ import com.cognixia.jump.LibraryProject.model.Book;
 import com.cognixia.jump.LibraryProject.model.Librarian;
 import com.cognixia.jump.LibraryProject.model.Patron;
 
+
+@WebServlet("/LibraryProject")
 public class LibraryServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
@@ -34,6 +37,7 @@ public class LibraryServlet extends HttpServlet {
 	
 	public void init(ServletConfig config) throws ServletException {
 		// TODO Auto-generated method stub
+		System.out.println("Web has been initialized");
 		bookDao = new BookDAO();
 		patronDao = new PatronDAO();
 		librarianDao = new LibrarianDAO();
@@ -43,14 +47,15 @@ public class LibraryServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		String action = request.getServletPath();
-		
+		System.out.println(action);
 		// TODO handle other actions from library and patron pages
 		switch(action) {
 		case "/login":
 			login(request,response);
 			break;
 		case "/signup":
-			goToSignupPage(request, response);
+			RequestDispatcher dispatcher = request.getRequestDispatcher("signup-form.jsp");
+			dispatcher.forward(request, response);
 			break;
 		case "/signedup":
 			signup(request,response);
@@ -62,8 +67,12 @@ public class LibraryServlet extends HttpServlet {
 			break;
 			
 			
-		case "/user/list-books":
+		case "/list-books":
 			listBooks(request, response);
+			break;
+			
+		default:
+			response.sendRedirect("/LibraryProject");
 			break;
 		}
 		
@@ -83,7 +92,7 @@ public class LibraryServlet extends HttpServlet {
 	
 	private void login(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		// TODO check paramter names
+		// TODO check parameter names
 		String username = request.getParameter("username");
 		String password = request.getParameter("password");
 		String type = request.getParameter("login-type");
@@ -112,7 +121,7 @@ public class LibraryServlet extends HttpServlet {
 	}
 	//go to signup page
 	private void goToSignupPage(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		RequestDispatcher dispatcher = request.getRequestDispatcher("signup-form");
+		RequestDispatcher dispatcher = request.getRequestDispatcher("signup-form.jsp");
 		
 		dispatcher.forward(request, response);
 		
