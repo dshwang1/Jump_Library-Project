@@ -2,11 +2,9 @@ package com.cognixia.jump.LibraryProject.web;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.List;
 
-
-import javax.servlet.Servlet;
 import javax.servlet.RequestDispatcher;
-
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -17,6 +15,7 @@ import com.cognixia.jump.LibraryProject.connection.ConnectionManager;
 import com.cognixia.jump.LibraryProject.dao.BookDAO;
 import com.cognixia.jump.LibraryProject.dao.LibrarianDAO;
 import com.cognixia.jump.LibraryProject.dao.PatronDAO;
+import com.cognixia.jump.LibraryProject.model.Book;
 
 public class LibraryServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -25,8 +24,8 @@ public class LibraryServlet extends HttpServlet {
 	private PatronDAO patronDao;
 	private LibrarianDAO librarianDao;
 
-	private PatronDAO patDao = new PatronDAO();
-	private LibrarianDAO libDao = new LibrarianDAO();
+//	private PatronDAO patDao = new PatronDAO();
+//	private LibrarianDAO libDao = new LibrarianDAO();
 	
 	private static final String libPage = "librarian-page.jsp";
 	private static final String patPage = "patron-page.jsp";
@@ -51,6 +50,8 @@ public class LibraryServlet extends HttpServlet {
 		case "/signup":
 			signup(request,response);
 			break;
+		case "/list-books":
+			listBooks(request, response);
 		}
 		
 	}
@@ -79,10 +80,10 @@ public class LibraryServlet extends HttpServlet {
 		
 		// TODO check page name
 		if(type.equals("patron")) {
-			success = patDao.login(username, password);
+			success = patronDao.login(username, password);
 			page = patPage;
 		} else {
-			success = libDao.login(username, password);
+			success = librarianDao.login(username, password);
 			page = libPage;
 		}
 		
@@ -106,7 +107,7 @@ public class LibraryServlet extends HttpServlet {
 		String lastName = request.getParameter("last_name");
 		
 		boolean success;
-		success = patDao.createAccount(firstName, lastName, username, password);
+		success = patronDao.createAccount(firstName, lastName, username, password);
 		
 		if(success) {
 			RequestDispatcher dispatcher = request.getRequestDispatcher(patPage);
@@ -121,11 +122,21 @@ public class LibraryServlet extends HttpServlet {
 
 
 		private void listBooks(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+			List<Book> allBooks = bookDao.getBooks();
 			
+			request.setAttribute("allBooks", allBooks);
+			
+			RequestDispatcher dispatcher = request.getRequestDispatcher("lisg-of-books.jsp");
+			
+			dispatcher.forward(request, response);
 		}
 		
 		//list checkedout books for patrons
 		private void listCheckedoutBooks(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+			List<Book> checkedoutBooks = bookDao.getCheckedoutBooks();
+			request.setAttribute("checkedoutBooks", checkedoutBooks);
+			RequestDispatcher dispatcher = request.getRequestDispatcher("checkedout-books.jsp");
+			dispatcher.forward(request, response);
 			
 		}
 		
