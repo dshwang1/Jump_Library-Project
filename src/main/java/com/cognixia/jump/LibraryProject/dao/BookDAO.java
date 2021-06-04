@@ -18,7 +18,7 @@ public class BookDAO {
 	
 	private static final String SELECT_ALL_BOOKS = "select * from book";
 	private static final String UPDATE_BOTH = "update book set title = ?, descr = ? where isbn = ?";
-	private static final String ADD_BOOK = "insert into book(isbn, title, descr, rented, added_to_library) values(?, ?, ?, ?, ?)";
+	private static final String ADD_BOOK = "insert into book(isbn, title, descr, rented, added_to_library) values(?, ?, ?, ?, current_date())";
 	private static final String VIEW_CHECKOUT_BOOKS = "select distinct book.isgn, title, descr, rented, added_to_library from book join book_checkout on book.isbn = book_checkout.isbn";
 	private static final String RETURN_BOOK = "update book_checkout set returned = ? where checkout_id = ?";
 	private static final String CHECKOUT_BOOK = "insert into book_checkout(patron_id, isbn, checkedout, due-date, returned) vlaues(?, ?, ?, null, null)";
@@ -76,7 +76,6 @@ public class BookDAO {
 			ps.setString(2, book.getTitle());
 			ps.setString(3, book.getDescr());
 			ps.setBoolean(4, false);
-			ps.setDate(5, null);
 			
 			if(ps.executeUpdate() > 0)
 				return true;

@@ -6,7 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import com.cognixia.jump.LibraryProject.connection.ConnectionManager;
-import com.cognixia.jump.LibraryProject.model.Checkout;
+//import com.cognixia.jump.LibraryProject.model.Checkout;
 import com.cognixia.jump.LibraryProject.model.Patron;
 
 public class PatronDAO {
@@ -18,8 +18,8 @@ public class PatronDAO {
 	public static final String UPDATE_NAME = "UPDATE patron SET first_name = ?, last_name = ? WHERE patron_id = ?";
 	public static final String UPDATE_USERNAME = "UPDATE patron SET username = ? WHERE patron_id = ?";
 	public static final String UPDATE_PASSWORD = "UPDATE patron SET password = ? WHERE patron_id = ?";
-	public static final String CREATE_ACCOUNT = "INSERT INTO patron (patron_id, first_name, last_name, username, password, frozen"
-												+ "VALUES(null, ?, ?, ?, ?, 'false')";
+	public static final String CREATE_ACCOUNT = "INSERT INTO patron(first_name, last_name, username, password, account_frozen)"
+												+ " VALUES(?, ?, ?, ?, false)";
 	public static final String LOGIN = "SELECT * FROM patron "
 										+ "WHERE username = ? AND password = ?";
 	public static final String USERNAME_CHECK = "SELECT * FROM patron WHERE username = ?";
@@ -101,7 +101,7 @@ public class PatronDAO {
 	public boolean createAccount(String firstName, String lastName, String username, String password) {
 		
 		boolean inserted = false;
-		
+
 		// if username is not taken, create the account
 		if(!usernameTaken(username)) {
 			try(PreparedStatement pstmt = conn.prepareStatement(CREATE_ACCOUNT)) {
@@ -111,8 +111,10 @@ public class PatronDAO {
 				pstmt.setString(3, username);
 				pstmt.setString(4, password);
 				
-				inserted = pstmt.execute();
-				
+				if(pstmt.executeUpdate() > 0) {
+					inserted = true;
+					return inserted;
+				}
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}

@@ -58,16 +58,15 @@ public class LibraryServlet extends HttpServlet {
 		case "/signup":
 			goToSignupPage(request, response);
 			break;
+		case "/signing":
+			signup(request,response);
+			break;
 		case "/patron":
 			toPatronPage(request, response);
 			break;
 
 		case "/librarian":
 			toLibPage(request, response);
-			break;
-			
-		case "/signedup":
-			signup(request,response);
 			break;
 			
 		case "/list":
@@ -144,13 +143,10 @@ public class LibraryServlet extends HttpServlet {
 		if(success) {
 			if(type.equals("patron")) {
 				response.sendRedirect("patron");
-//				RequestDispatcher dispatcher = request.getRequestDispatcher(patPage);
-//				dispatcher.forward(request, response);
 			} else {
 				response.sendRedirect("librarian");
 			}
-//			RequestDispatcher dispatcher = request.getRequestDispatcher(page);
-//			dispatcher.forward(request, response);
+
 		} else {
 			//TODO send failed message
 			System.out.println("Login failed. ");
@@ -178,7 +174,7 @@ public class LibraryServlet extends HttpServlet {
 		success = patronDao.createAccount(firstName, lastName, username, password);
 		
 		if(success) {
-			response.sendRedirect("patron");
+			response.sendRedirect("/LibrayProject");
 //			toPatronPage(request, response);
 		} else {
 			// TODO send failed message
