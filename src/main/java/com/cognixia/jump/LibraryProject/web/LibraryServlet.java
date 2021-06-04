@@ -94,7 +94,6 @@ public class LibraryServlet extends HttpServlet {
 	
 	private void login(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		// TODO check parameter names
 		String username = request.getParameter("username");
 		String password = request.getParameter("password");
 		String type = request.getParameter("login-type");
@@ -102,7 +101,7 @@ public class LibraryServlet extends HttpServlet {
 		boolean success;
 		String page;
 		
-		// TODO check page name
+		// set redirect page to either patron or library
 		if(type.equals("patron")) {
 			success = patronDao.login(username, password);
 			page = patPage;
@@ -146,6 +145,7 @@ public class LibraryServlet extends HttpServlet {
 			dispatcher.forward(request, response);
 		} else {
 			// TODO send failed message
+			System.out.println("Failed signup");
 		}
 		
 	}
@@ -175,10 +175,25 @@ public class LibraryServlet extends HttpServlet {
 		//checkout book for patron
 		private void checkout(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 			
+			String username = request.getParameter("username");
+			String isbn = request.getParameter("isbn");
+			Book book = bookDao.getBookByIsbn(isbn);
+			Patron patron = patronDao.getPatronByUsername(username);
+			
+			bookDao.addCheckout(book, patron);
+			
 		}
 		
 		//return book for patron
 		private void returnbook(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+			
+			String username = request.getParameter("username");
+			String isbn = request.getParameter("isbn");
+			Book book = bookDao.getBookByIsbn(isbn);
+			
+			// TODO
+			//bookDao.getCheckout(patron_id);
+			bookDao.returnBook(null, book);
 			
 		}
 		
@@ -200,8 +215,16 @@ public class LibraryServlet extends HttpServlet {
 		}
 		
 		//update name, username, password
-		private void updateCredential(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		private boolean updatePatronCredential(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 			
+			int id = Integer.parseInt(request.getParameter("id"));
+			String[] fullName = request.getParameter("name").split(" ");
+			String first_name = fullName[0];
+			String last_name = fullName[1];
+			String username = request.getParameter("username");
+			String password = request.getParameter("password");
+			
+			return patronDao.updateCredentials(id, first_name, last_name, username, password);
 		}
 		
 		//addBook for librarian
@@ -229,11 +252,33 @@ public class LibraryServlet extends HttpServlet {
 		//approve patron for librarian
 		private void approve(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 			
+			int id = Integer.parseInt(request.getParameter("patron_id"));
+			
+			List<Patron> pList = librarianDao.approvePatron(id);
+			
+			if(pList.isEmpty()) {
+				System.out.println("success");
+				// TODO show changed patrons
+			} else {
+				System.out.println("Failed");
+			}
 		}
 
 		
 		//update username, password for librarian
 		private void updateCredentialLibrarian(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+			
+			int id = Integer.parseInt(request.getParameter("librarian_id"));
+			String username = request.getParameter("username");
+			String password = request.getParameter("password");
+			
+			boolean success = librarianDao.updateUsernameAndPassword(id, username, password);
+			
+			if (success) {
+				System.out.println("updated credentials");
+			} else {
+				System.out.println("failed to update credentials");
+			}
 			
 		}
 

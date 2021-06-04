@@ -4,35 +4,46 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.cognixia.jump.LibraryProject.connection.ConnectionManager;
 import com.cognixia.jump.LibraryProject.model.Librarian;
+import com.cognixia.jump.LibraryProject.model.Patron;
 
 public class LibrarianDAO {
 
 	public static final Connection conn = ConnectionManager.getConnection();
 	
 	// Query Strings
-	public static final String APPROVE_PATRON = "UPDATE patron SET account_frozen = 'true' WHERE patron_id = ?";
+	public static final String APPROVE_PATRON = "UPDATE patron SET account_frozen = 'true' WHERE account_frozen = 'false'";
 	public static final String UPDATE_USERNAME = "UPDATE librarian SET username = ? WHERE librarian_id = ?";
 	public static final String UPDATE_PASSWORD = "UPDATE librarian SET password = ? WHERE librarian_id = ?";
 	public static final String LOGIN = "SELECT * FROM librarian"
 										+ "WHERE username = ? AND password = ?";
 	public static final String USERNAME_CHECK = "SELECT * FROM librarian WHERE username = ?";
 	
-	public boolean approvePatron(int id) {
-		boolean approved = false;
+	public List<Patron> approvePatron(int id) {
+		
+		List<Patron> pList = new ArrayList<>();
 		
 		try(PreparedStatement pstmt = conn.prepareStatement(APPROVE_PATRON)) {
 			
-			pstmt.setInt(1, id);;
-			approved = pstmt.execute();
+			ResultSet rs = pstmt.executeQuery();
+			while(rs.next()) {
+				// TODO create patrons add to list
+				String fName = rs.getString("first_name");
+				String lName = rs.getString("last_name");
+				String username = rs.getString("username");
+				Patron pat = new Patron(id, fName, lName, username, null, true);
+				pList.add(pat);
+			}
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		
-		return approved;
+		return pList;
 		
 	}
 	

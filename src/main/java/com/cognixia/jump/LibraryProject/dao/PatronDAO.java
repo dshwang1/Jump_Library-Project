@@ -23,6 +23,21 @@ public class PatronDAO {
 										+ "WHERE username = ? AND password = ?";
 	public static final String USERNAME_CHECK = "SELECT * FROM patron WHERE username = ?";
 	
+	
+	public boolean updateCredentials(int id, String firstName, String lastName, String username, String password) {
+		
+		boolean success = false;
+		
+		if(updateName(id, firstName, lastName)) {
+			updateUsername(id, username);
+			updatePassword(id, password);
+			success = true;
+		}
+		
+		
+		return success;
+	}
+	
 	public boolean updateName(int id, String firstName, String lastName) {
 		
 		boolean updated = false;
