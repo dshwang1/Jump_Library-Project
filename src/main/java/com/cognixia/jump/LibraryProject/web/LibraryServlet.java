@@ -16,6 +16,8 @@ import com.cognixia.jump.LibraryProject.dao.BookDAO;
 import com.cognixia.jump.LibraryProject.dao.LibrarianDAO;
 import com.cognixia.jump.LibraryProject.dao.PatronDAO;
 import com.cognixia.jump.LibraryProject.model.Book;
+import com.cognixia.jump.LibraryProject.model.Librarian;
+import com.cognixia.jump.LibraryProject.model.Patron;
 
 public class LibraryServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -68,7 +70,7 @@ public class LibraryServlet extends HttpServlet {
 		}
 	}
 	
-	public void login(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	private void login(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		// TODO check paramter names
 		String username = request.getParameter("username");
@@ -97,8 +99,15 @@ public class LibraryServlet extends HttpServlet {
 		
 		
 	}
+	//go to signup page
+	private void goToSignupPage(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		RequestDispatcher dispatcher = request.getRequestDispatcher("signup-form");
+		
+		dispatcher.forward(request, response);
+		
+	}
 	
-	public void signup(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	private void signup(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		// TODO check parameter names
 		String username = request.getParameter("username");
@@ -147,6 +156,23 @@ public class LibraryServlet extends HttpServlet {
 		
 		//return book for patron
 		private void returnbook(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+			
+		}
+		
+		private void goToUserUpdateForm(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+			String username = request.getParameter("username");
+			Patron patron = patronDao.getPatronByUsername(username);
+			request.setAttribute("patron", patron);
+			RequestDispatcher dispatcher = request.getRequestDispatcher("patron-update.jsp");
+			dispatcher.forward(request, response);
+		}
+		
+		private void goToLibrarianUpdateForm(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+			String username = request.getParameter("username");
+			Librarian librarian = librarianDao.getLibrarianByUsername(username);
+			request.setAttribute("librarian", librarian);
+			RequestDispatcher dispatcher = request.getRequestDispatcher("librarian-update.jsp");
+			dispatcher.forward(request, response);
 			
 		}
 		

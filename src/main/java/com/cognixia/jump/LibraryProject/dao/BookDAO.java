@@ -143,11 +143,14 @@ public class BookDAO {
 	//returns the current book rented status.
 	public boolean checkRent(Book book) {
 		boolean isrent = false;
-		try(PreparedStatement ps = conn.prepareStatement(CHECK_RETURN);
-				ResultSet rs = ps.executeQuery()) {
+		try(PreparedStatement ps = conn.prepareStatement(CHECK_RETURN)) {
+			
 			ps.setString(1, book.getIsbn());
+			ResultSet rs = ps.executeQuery();
 			if(rs.next())
 				isrent = rs.getBoolean(1);
+			
+			rs.close();
 			
 			return isrent;
 			
