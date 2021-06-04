@@ -6,7 +6,7 @@
 	
 	<div class="card-body">
 		
-		<form action="add" method="post">
+		<form action="add-book" method="post">
 		<fieldset>
 			<fieldset class="form-group">
 	        <label>ISBN:</label>

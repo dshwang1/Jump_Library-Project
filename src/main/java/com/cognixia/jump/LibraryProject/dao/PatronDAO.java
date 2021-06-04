@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import com.cognixia.jump.LibraryProject.connection.ConnectionManager;
+import com.cognixia.jump.LibraryProject.model.Checkout;
 import com.cognixia.jump.LibraryProject.model.Patron;
 
 public class PatronDAO {
@@ -22,6 +23,7 @@ public class PatronDAO {
 	public static final String LOGIN = "SELECT * FROM patron "
 										+ "WHERE username = ? AND password = ?";
 	public static final String USERNAME_CHECK = "SELECT * FROM patron WHERE username = ?";
+	public static final String PATRON_CHECKOUT_LIST = "select * book";
 	
 	public boolean updateName(int id, String firstName, String lastName) {
 		
@@ -163,4 +165,8 @@ public class PatronDAO {
 		}
 		return patron;
 	}
+	
+//	public Checkout getCheckoutByUserId(int id) {
+//		
+//	}
 }
